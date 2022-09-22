@@ -3,8 +3,8 @@ const gridSize = {
   x: 50,
   y: 50
 };
-let maxFloors = 100;
-let totalBuildings = 100;
+let maxFloors = 50;
+let totalBuildings = 20;
 let w, h;
 let numPresses = 0;
 let channels = [];
@@ -20,12 +20,12 @@ function setup() {
   fill(255);
   noFill();
   stroke(0);
-  strokeWeight(8);
+  strokeWeight(1);
   rectMode(CENTER);
   angleMode(DEGREES);
-  channels.push(color(255, 255, 0, 128));
-  channels.push(color(255, 255, 0, 128));
-  channels.push(color(255, 255, 0, 128));
+  channels.push(color(255, 0, 0, 255));
+  channels.push(color(0, 255, 0, 255));
+  channels.push(color(0, 0, 255, 255));
   createBuildings();
   drawOnce();
 }
@@ -60,16 +60,18 @@ function doesItCollide(building, buildingsArr) {
     // if we're over to the left of existing buildings,
     // or we're over to the right of them
     if (
-      building.x + building.w/2 <= buildingFromArr.x - buildingFromArr.w/2 ||
-      building.x - building.w/2 >= buildingFromArr.x + buildingFromArr.w/2
+      building.x + building.w / 2 <=
+        buildingFromArr.x - buildingFromArr.w / 2 ||
+      building.x - building.w / 2 >= buildingFromArr.x + buildingFromArr.w / 2
     ) {
       return false;
     }
     // if we're above the existing buildings...
     // or below them
     if (
-      building.y + building.h/2 <= buildingFromArr.y - buildingFromArr.h/2 ||
-      building.y - building.h/2 >= buildingFromArr.y + buildingFromArr.h/2
+      building.y + building.h / 2 <=
+        buildingFromArr.y - buildingFromArr.h / 2 ||
+      building.y - building.h / 2 >= buildingFromArr.y + buildingFromArr.h / 2
     ) {
       return false;
     }
@@ -119,26 +121,43 @@ class Building {
     this.h = _h;
     this.rotation = random(-2, 2);
     this.floors = _floors;
-    this.floorHeight = 5;
+    this.floorHeight = 20;
     this.channelNumber = _channelNumber;
   }
   draw() {
     push();
-    translate(width/2, height/2);
+    translate(width / 2, height / 2);
     rotate(35);
     for (let i = 0; i < this.floors; i++) {
       push();
-      stroke(channels[this.channelNumber])
-      let x = map(this.x, 0, gridSize.x - 1, -width/2, width * 2);
-      let y = map(this.y, 0, gridSize.y - 1, -height/2, height * 2);
+      stroke(channels[this.channelNumber]);
+      let x = map(this.x, 0, gridSize.x - 1, -width / 2, width * 2);
+      let y = map(this.y, 0, gridSize.y - 1, -height / 2, height * 2);
       let w = map(this.w, 0, gridSize.x - 1, 0, width * 2);
       let h = map(this.h, 0, gridSize.y - 1, 0, height * 2);
-      translate(x - i * this.floorHeight/1.3 - width/2, y - i * this.floorHeight - height/2);
+      translate(
+        x - (i * this.floorHeight) / 1.3 - width / 2,
+        y - i * this.floorHeight - height / 2
+      );
       rotate(this.rotation);
-      // rotate(this.rotation);
-      rect(0, 0, w, h);
+      let quadPoints = [
+        { x: 0, y: 0 },
+        { x: 0 + w, y: 0 },
+        { x: 0 + w, y: 0 + h },
+        { x: 0, y: 0 + h }
+      ];
+      fillRect(w, h, 20);
+      // rect(0, 0, w, h);
       pop();
     }
     pop();
+  }
+}
+
+function fillRect(w, h, density) {
+  for (let i = 0; i < density; i++) {
+    let newW = map(i, 0, density - 1, w, 0);
+    let newH = map(i, 0, density - 1, h, 0);
+    rect(0, 0, newW, newH);
   }
 }
