@@ -14,19 +14,41 @@ let p4 = {
   x: 40,
   y: 720
 };
+const pointsArr = [];
 
 function setup() {
   let w = window.innerWidth;
   let h = window.innerHeight;
   createCanvas(w, h, SVG);
   noFill();
+  let totalPoints = 4;
+  pointsArr.push({
+    x: 0,
+    y: 0
+  });
+  pointsArr.push({
+    x: width,
+    y: 0
+  });
+  pointsArr.push({
+    x: width,
+    y: height
+  });
+  pointsArr.push({
+    x: 0,
+    y: height
+  });
+  // TODO how to take an arbitrary number of points,
+  // divide the screen up into a grid of that size,
+  // and place points in that grid so we have a shape
+  // that doesnt overlap itself
   runDraw();
 }
 
 function runDraw() {
   background(255);
   stroke(0);
-  fillQuad([p1, p2, p3, p4], 100);
+  fillQuad(pointsArr, 150);
 }
 
 // TODO:
@@ -46,18 +68,49 @@ function fillQuad(points, density) {
   };
   for (let i = 0; i < density; i++) {
     push();
-    translate(polyCenter.x, polyCenter.y);
+    let newPolyCenter = {
+      x: polyCenter.x + noise(sin(i / 50)) * 500,
+      y: polyCenter.y + noise(cos(i / 50)) * 500
+    }
+    translate(newPolyCenter.x, newPolyCenter.y);
+    console.log(noise(sin(i / 50)) * 500);
     scale(map(i, 0, density - 1, 1, 0));
+    //fill(255);
     quad(
-      p1.x - polyCenter.x,
-      p1.y - polyCenter.y,
-      p2.x - polyCenter.x,
-      p2.y - polyCenter.y,
-      p3.x - polyCenter.x,
-      p3.y - polyCenter.y,
-      p4.x - polyCenter.x,
-      p4.y - polyCenter.y
+      points[0].x - newPolyCenter.x,
+      points[0].y - newPolyCenter.y,
+      points[1].x - newPolyCenter.x,
+      points[1].y - newPolyCenter.y,
+      points[2].x - newPolyCenter.x,
+      points[2].y - newPolyCenter.y,
+      points[3].x - newPolyCenter.x,
+      points[3].y - newPolyCenter.y
     );
     pop();
   }
+  // for (let i = 0; i < density; i++) {
+  //   push();
+  //   let newPolyCenter = {
+  //     x: polyCenter.x + noise(cos(i / 40)) * 500,
+  //     y: polyCenter.y + noise(sin(i / 45)) * 500
+  //   }
+  //   translate(
+  //     newPolyCenter.x,
+  //     newPolyCenter.y
+  //   );
+  //   console.log(noise(sin(i / 100) * 10));
+  //   //stroke(255, 0, 0);
+  //   scale(map(i, 0, density - 1, 0, 2.4));
+  //   quad(
+  //     points[0].x - newPolyCenter.x,
+  //     points[0].y - newPolyCenter.y,
+  //     points[1].x - newPolyCenter.x,
+  //     points[1].y - newPolyCenter.y,
+  //     points[2].x - newPolyCenter.x,
+  //     points[2].y - newPolyCenter.y,
+  //     points[3].x - newPolyCenter.x,
+  //     points[3].y - newPolyCenter.y
+  //   );
+  //   pop();
+  // }
 }
