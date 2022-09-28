@@ -58,7 +58,8 @@ function draw() {
       if (posArr[x][y] === 1) {
         noFill();
         stroke(0);
-        rect((x * width) / numSpots - 100, (y * height) / numSpots - 100, 200, 200);
+        circle((x * width) / numSpots, (y * height) / numSpots, 100);
+        // rect((x * width) / numSpots - 100, (y * height) / numSpots - 100, 200, 200);
         // circle(
         //   (x * width) / numSpots,
         //   (y * height) / numSpots,
