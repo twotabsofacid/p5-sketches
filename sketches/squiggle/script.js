@@ -1,4 +1,8 @@
 let pointsArr = [];
+let w, h;
+const r = 250;
+const totalPoints = 800;
+const noiseScale = 200;
 
 function setup() {
   let w = window.innerWidth;
@@ -6,6 +10,7 @@ function setup() {
   createCanvas(w, h, SVG);
   noFill();
   angleMode(DEGREES);
+  noFill();
   runDraw();
 }
 
