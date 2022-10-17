@@ -18,6 +18,8 @@ function setup() {
   buffer.background(255);
   buffer.image(img, 0, 0, imgW, imgH);
   rectMode(CENTER);
+  ellipseMode(CENTER);
+  angleMode(DEGREES);
   runDraw();
 }
 
@@ -40,13 +42,16 @@ function runDraw() {
       let c = grayscaleValues[flatPos];
       // console.log(c);
       // We have 20x20 area to work in...
-      let mappedC = parseInt(map(c, 0, 255, squareSize/1.5, 0));
+      let mappedC = parseInt(map(c, 0, 255, squareSize/2, 0));
       console.log(mappedC);
       for (let i = 0; i < mappedC; i++) {
         push();
-        translate(y * squareSize + squareSize/2, x * squareSize + squareSize/2);
-        scale(map(i, 0, mappedC - 1, 1, 0.05));
-        rect(0, 0, squareSize, squareSize);
+        translate(y * squareSize - squareSize, x * squareSize - squareSize);
+        // scale(map(i, 0, mappedC - 1, 1, 0.05));
+        scale(map(i, 0, squareSize/2, 0.5, 12));
+        rotate(360/(i + 6));
+        arc(0, 0, squareSize, squareSize, 0, 180);
+        // ellipse(0, 0, squareSize);
         pop();
       }
     }
