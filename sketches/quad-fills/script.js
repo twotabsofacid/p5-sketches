@@ -53,7 +53,7 @@ function createPoints() {
 function runDraw() {
   background(255);
   stroke(0);
-  fillQuad(pointsArr, 150);
+  fillQuad(pointsArr, 100);
 }
 
 // TODO:

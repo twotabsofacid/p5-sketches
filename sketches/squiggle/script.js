@@ -5,10 +5,11 @@ const totalPoints = 800;
 const noiseScale = 200;
 
 function setup() {
-  w = window.innerWidth;
-  h = window.innerHeight;
+  let w = window.innerWidth;
+  let h = window.innerHeight;
   createCanvas(w, h, SVG);
-  ellipseMode(CENTER);
+  noFill();
+  angleMode(DEGREES);
   noFill();
   runDraw();
 }
@@ -16,19 +17,22 @@ function setup() {
 function runDraw() {
   background(255);
   stroke(0);
-  // How to draw a circle...
+  drawSquiggle(50, 100);
+}
+
+function drawSquiggle(totalPoints, r) {
   push();
   translate(width / 2, height / 2);
   beginShape();
   for (let i = 0; i < totalPoints; i++) {
-    let x = cos(map(i, 0, totalPoints - 1, 0, 2 * Math.PI));
-    let y = sin(map(i, 0, totalPoints - 1, 0, 2 * Math.PI));
-    console.log((noise((x + y) / 2) - 0.5) * 2);
-    let noiseX = (noise((x + y) / 2) - 0.5) * noiseScale;
-    let noiseY = (noise((x + y) / 1.4) - 0.5) * noiseScale;
-    // let noiseyX = ((noise((x + 1)/100) * 0.5 - 0.5) * 5) + x;
-    // let noiseyY = ((noise((y + 1)/100) * 0.5 - 0.5) * 5) + y;
-    vertex(x * r + noiseX, y * r + noiseY);
+    let deg = map(i, 0, totalPoints - 1, 0, 360);
+    let xPos = r * cos(deg);
+    console.log((noise(sin(i)) - 0.5) * 500);
+    let yPos = r * sin(deg);
+    let mappedI = abs(map(i, 0, totalPoints - 1, -totalPoints, totalPoints));
+    let noiseX = (noise(sin(mappedI)) - 0.5) * 223;
+    let noiseY = (noise(cos(mappedI)) - 0.5) * 287;
+    vertex(xPos + noiseX, yPos + noiseY);
   }
   endShape();
   pop();
@@ -37,7 +41,7 @@ function runDraw() {
 function keyReleased(e) {
   console.log(e);
   if (e.code === 'Space') {
-    save('quad-fills.svg');
+    save('squiggle.svg');
   }
 }
 
