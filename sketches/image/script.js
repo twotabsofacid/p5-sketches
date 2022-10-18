@@ -1,15 +1,15 @@
 let img;
 let buffer;
 let imgW = 50;
-let imgH = 66;
+let imgH = 47;
 let squareSize = 24;
 
 function preload() {
-  img = loadImage('img.jpg');
+  img = loadImage('egon.jpg');
 }
 
 function setup() {
-  w = window.innerWidth;
+  w = 50 * 24;
   h = window.innerHeight;
   createCanvas(w, h, SVG);
   noFill();
@@ -42,15 +42,16 @@ function runDraw() {
       let c = grayscaleValues[flatPos];
       // console.log(c);
       // We have 20x20 area to work in...
-      let mappedC = parseInt(map(c, 0, 255, squareSize/2, 0));
+      let mappedC = parseInt(map(c, 0, 255, squareSize/4, 0));
       console.log(mappedC);
       for (let i = 0; i < mappedC; i++) {
         push();
-        translate(y * squareSize - squareSize, x * squareSize - squareSize);
+        translate(x * squareSize, y * squareSize - squareSize * 2);
         // scale(map(i, 0, mappedC - 1, 1, 0.05));
         scale(map(i, 0, squareSize/2, 0.5, 12));
         rotate(360/(i + 6));
-        arc(0, 0, squareSize, squareSize, 0, 180);
+        //rect(0, 0, squareSize, squareSize);
+        arc(0, 0, squareSize, squareSize, 0, 90);
         // ellipse(0, 0, squareSize);
         pop();
       }
