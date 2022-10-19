@@ -33,11 +33,21 @@ function drawOnce() {
     ]);
   }
   colorArr = colorArr.sort((a, b) => {
-    return (a[0] + a[1] + a[2]) / 3 - (b[0] + b[1] + b[2]) / 3;
+    if ((a[0] + a[1] + a[2]) / 3 === (b[0] + b[1] + b[2]) / 3) {
+      if (a[0] !== b[0]) {
+        return a[0] - b[0];
+      } else if (a[1] !== b[1]) {
+        return a[1] - b[1];
+      } else {
+        return a[2] - b[2];
+      }
+    } else {
+      return (a[0] + a[1] + a[2]) / 3 - (b[0] + b[1] + b[2]) / 3;
+    }
   });
   for (let i = 0; i < colorArr.length; i++) {
     let x = i % w;
-    let y = floor(i/w);
+    let y = floor(i / w);
     stroke(colorArr[i][0], colorArr[i][1], colorArr[i][2]);
     rect(x, y, 1, 1);
   }
